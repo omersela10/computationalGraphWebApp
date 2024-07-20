@@ -1,6 +1,6 @@
-package test;
+package controller;
 
-import test.RequestParser.RequestInfo;
+import controller.RequestParser.RequestInfo;
 import java.io.*;
 import java.net.*;
 import java.util.concurrent.*;
