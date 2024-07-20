@@ -9,13 +9,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import server.RequestParser.RequestInfo;
-import servlets.DelayServlet;
-import servlets.HtmlLoader;
+import servlets.*;
 
 
-public class MainTrain { // RequestParser
-    
+public class MainTrain {
 
+    // RequestParser
     private static void testParseRequest() {
         // Test data
         String request = "GET /api/resource?id=123&name=test HTTP/1.1\n" +
@@ -78,8 +77,8 @@ public class MainTrain { // RequestParser
     	 // Create HTML file for testing
         HTTPServer myServer = new MyHTTPServer(8080, 5);
         myServer.addServlet("GET", "/app", new HtmlLoader("C:\\Users\\USER\\git\\computationalGraphWebAppGit\\computationalGraphWebApp\\html_files"));
-        myServer.addServlet("GET", "/delay", new DelayServlet());
 
+        myServer.addServlet("POST", "/upload", new ConfLoader());
         myServer.start();
 
         // Wait for the server to start
