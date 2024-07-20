@@ -1,7 +1,14 @@
-package model;
-import java.io.*;
+package configs;
+
+import graph.Agent;
+import graph.ParallelAgent;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /// Advanced Programming exercise 4
@@ -17,7 +24,7 @@ public class GenericConfig implements Config {
     // Methods
     @Override
     public void create() {
-    	
+
         try (BufferedReader reader = new BufferedReader(new FileReader(configFile))) {
         	
         	// Read File
@@ -32,7 +39,7 @@ public class GenericConfig implements Config {
             if (lines.size() % 3 != 0) {
                 throw new IllegalArgumentException("Invalid config file format.");
             }
-            
+
             // Iterate over the lines
             for (int i = 0; i < lines.size(); i += 3) {
             	

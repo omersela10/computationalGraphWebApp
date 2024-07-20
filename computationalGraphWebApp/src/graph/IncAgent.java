@@ -1,4 +1,4 @@
-package model;
+package graph;
 
 /// Advanced Programming exercise 4
 /// Student Name: Ahigad Genish

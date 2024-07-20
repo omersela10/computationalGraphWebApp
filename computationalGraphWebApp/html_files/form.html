@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Forms</title>
+</head>
+<body>
+<!-- Form for uploading configuration file -->
+<form action="http://localhost:8080/upload" method="post" enctype="multipart/form-data" target="graphFrame">
+    <label for="configFile">Choose File:</label>
+    <input type="file" id="configFile" name="configFile">
+    <input type="submit" value="Deploy">
+</form>
+
+<br>
+
+<!-- Form for sending message to topic -->
+<form action="http://localhost:8080/publish" method="get" target="tableFrame">
+    <label for="topicName">Topic name:</label>
+    <input type="text" id="topicName" name="topicName">
+    <br>
+    <label for="message">Message:</label>
+    <input type="text" id="message" name="message">
+    <br>
+    <input type="submit" value="Send">
+</form>
+</body>
+</html>

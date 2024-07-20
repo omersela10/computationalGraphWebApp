@@ -1,19 +1,16 @@
-package controller;
+package server;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.net.Socket;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random;
 
-import controller.RequestParser;
-import controller.RequestParser.RequestInfo;
+import server.RequestParser.RequestInfo;
+import servlets.DelayServlet;
+import servlets.HtmlLoader;
 
 
 public class MainTrain { // RequestParser
@@ -80,7 +77,7 @@ public class MainTrain { // RequestParser
     	
     	 // Create HTML file for testing
         HTTPServer myServer = new MyHTTPServer(8080, 5);
-        myServer.addServlet("GET", "/app", new HtmlLoader("index.html"));
+        myServer.addServlet("GET", "/app", new HtmlLoader("C:\\Users\\USER\\git\\computationalGraphWebAppGit\\computationalGraphWebApp\\html_files"));
         myServer.addServlet("GET", "/delay", new DelayServlet());
 
         myServer.start();

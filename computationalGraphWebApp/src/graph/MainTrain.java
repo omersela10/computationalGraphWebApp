@@ -1,16 +1,15 @@
-package model;
+package graph;
 
 import java.util.Random;
-
+import configs.*;
 
 public class MainTrain {
     
     public static void main(String[] args) {
         int c=Thread.activeCount();
-        GenericConfig gc=new GenericConfig();
-        gc.setConfFile("C:\\Users\\USER\\git\\computationalGraphWebAppGit\\computationalGraphWebApp\\resources\\simple.conf"); // change to the exact loaction where you put the file.
+        GraphConfig gc=new GraphConfig();
+        gc.setConfFile("C:\\Users\\USER\\git\\computationalGraphWebAppGit\\computationalGraphWebApp\\config_files\\simpleGraph.conf"); // change to the exact loaction where you put the file.
         gc.create();
-
         if(Thread.activeCount()!=c+2){
             System.out.println("the configuration did not create the right number of threads (-10)");
         }
@@ -39,6 +38,7 @@ public class MainTrain {
             
         });
 
+
         Random r=new Random();
         for(int i=0;i<9;i++){
             int x,y;
@@ -52,6 +52,9 @@ public class MainTrain {
             } catch (InterruptedException e) {}
 
             if(result[0]!=x+y+1){
+                System.out.println("A" + x);
+                System.out.println("B" + y);
+                System.out.println("result" + result[0]);
                 System.out.println("your agents did not produce the desierd result (-10)");
             }
         }

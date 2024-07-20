@@ -1,4 +1,5 @@
-package model;
+package graph;
+import java.util.*;
 import java.util.function.BinaryOperator;
 
 /// Advanced Programming exercise 3
@@ -15,20 +16,30 @@ public class BinOpAgent implements Agent {
 
     private Double firstInput;
     private Double secondInput;
-    
-    // Constructor
-    public BinOpAgent(String name, String firstInputTopicName, String secondInputTopicName, String outputTopicName, BinaryOperator<Double> operation) {
+
+    public static final Map<String, BinaryOperator<Double>> operators = new HashMap<>() {{
+        put("plus", (x, y) -> x + y);
+        put("minus", (x, y) -> x - y);
+        put("mul", (x, y) -> x * y);
+        put("div", (x, y) -> x / y);
+        put("power", (x, y) -> Math.pow(x, y));
+    }};
+
+    // Constructors
+    public BinOpAgent(String name, String[] inputTopicNames, String[] outputTopicNames, BinaryOperator<Double> operation) {
         
     	this.name = name;
-        this.firstInputTopicName = firstInputTopicName;
-        this.secondInputTopicName = secondInputTopicName;
-        this.outputTopicName = outputTopicName;
+        this.firstInputTopicName = inputTopicNames[0];
+        this.secondInputTopicName = inputTopicNames[1];
+        this.outputTopicName = outputTopicNames[0];
         this.operation = operation;
 
         subscribeToInputTopics();
         publishToOutputTopic();
     }
-
+    public BinOpAgent(String name, String[] inputTopicNames, String[] outputTopicNames, String operatorName) {
+        this(name, inputTopicNames, outputTopicNames, operators.get(operatorName));
+    }
     
     // Subscribe this agent to given input topics
     private void subscribeToInputTopics() {
@@ -52,7 +63,6 @@ public class BinOpAgent implements Agent {
 
         Double result = operation.apply(firstInput, secondInput);
         publish(result);
-        reset(); // Reset input messages after processing
     }
 
     // Getters
