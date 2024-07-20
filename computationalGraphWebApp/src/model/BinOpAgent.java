@@ -1,4 +1,4 @@
-package test;
+package model;
 import java.util.function.BinaryOperator;
 
 /// Advanced Programming exercise 3

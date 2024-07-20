@@ -1,4 +1,4 @@
-package test;
+package model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,5 +42,12 @@ public class Topic {
     public void removePublisher(Agent agent){
         this.publishers.remove(agent);
 
+    }
+
+    public List<Agent> getPublishers(){
+        return this.publishers;
+    }
+    public List<Agent> getSubscribers(){
+        return this.subscribers;
     }
 }

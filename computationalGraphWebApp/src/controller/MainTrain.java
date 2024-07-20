@@ -1,4 +1,4 @@
-package test;
+package controller;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
@@ -12,8 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-import test.RequestParser;
-import test.RequestParser.RequestInfo;
+import controller.RequestParser;
+import controller.RequestParser.RequestInfo;
 
 
 public class MainTrain { // RequestParser
@@ -32,7 +32,7 @@ public class MainTrain { // RequestParser
 
         BufferedReader input=new BufferedReader(new InputStreamReader(new ByteArrayInputStream(request.getBytes())));
         try {
-            RequestParser.RequestInfo requestInfo = RequestParser.parseRequest(input);
+            RequestInfo requestInfo = RequestParser.parseRequest(input);
 
             // Test HTTP command
             if (!requestInfo.getHttpCommand().equals("GET")) {

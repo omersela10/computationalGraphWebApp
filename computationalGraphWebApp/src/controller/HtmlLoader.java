@@ -1,4 +1,4 @@
-package test;
+package controller;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -8,7 +8,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.Map;
 
-import test.RequestParser.RequestInfo;
+import controller.RequestParser.RequestInfo;
 
 public class HtmlLoader implements Servlet {
     private String basePath;

@@ -1,4 +1,4 @@
-package test;
+package model;
 
 import java.util.Collection;
 import java.util.concurrent.ConcurrentHashMap;

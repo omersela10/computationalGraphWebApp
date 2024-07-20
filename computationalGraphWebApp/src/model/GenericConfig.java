@@ -1,4 +1,4 @@
-package test;
+package model;
 import java.io.*;
 import java.lang.reflect.Constructor;
 import java.util.*;

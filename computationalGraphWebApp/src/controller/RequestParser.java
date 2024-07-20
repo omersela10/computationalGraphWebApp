@@ -1,4 +1,4 @@
-package test;
+package controller;
 
 import java.io.*;
 import java.util.*;
@@ -195,7 +195,7 @@ public class RequestParser {
     }
 
     private static String[] removeEmptySegments(String[] segments) {
-        return java.util.Arrays.stream(segments)
+        return Arrays.stream(segments)
                                .filter(segment -> segment != null && segment.isEmpty() == false)
                                .toArray(String[]::new);
     }

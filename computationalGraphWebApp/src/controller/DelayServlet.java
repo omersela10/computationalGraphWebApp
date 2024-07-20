@@ -1,7 +1,7 @@
-package test;
+package controller;
 
 import java.io.*;
-import test.RequestParser.RequestInfo;
+import controller.RequestParser.RequestInfo;
 
 public class DelayServlet implements Servlet{
 
