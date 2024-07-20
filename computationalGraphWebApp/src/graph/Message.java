@@ -1,4 +1,4 @@
-package model;
+package graph;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Date;

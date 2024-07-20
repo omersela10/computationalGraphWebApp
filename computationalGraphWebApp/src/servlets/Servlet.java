@@ -1,9 +1,9 @@
-package controller;
+package servlets;
 
 import java.io.IOException;
 import java.io.OutputStream;
 
-import controller.RequestParser.RequestInfo;
+import server.RequestParser.RequestInfo;
 
 public interface Servlet {
     void handle(RequestInfo ri, OutputStream toClient) throws IOException;

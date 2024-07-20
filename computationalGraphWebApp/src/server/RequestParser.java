@@ -1,4 +1,4 @@
-package controller;
+package server;
 
 import java.io.*;
 import java.util.*;

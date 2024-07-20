@@ -1,4 +1,4 @@
-package model;
+package graph;
 
 import java.util.ArrayList;
 import java.util.*;
@@ -7,7 +7,7 @@ import java.util.*;
 /// Student Name: Ahigad Genish
 /// ID : 31628022
 
-import model.TopicManagerSingleton.TopicManager;
+import graph.TopicManagerSingleton.TopicManager;
 
 public class Graph extends ArrayList<Node>{
 

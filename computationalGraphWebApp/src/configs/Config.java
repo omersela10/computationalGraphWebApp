@@ -1,4 +1,4 @@
-package model;
+package configs;
 
 public interface Config {
     void create();
