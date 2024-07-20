@@ -164,6 +164,8 @@ public class MyHTTPServer extends Thread implements HTTPServer{
             }
         } catch (IOException e) {
             e.printStackTrace();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 

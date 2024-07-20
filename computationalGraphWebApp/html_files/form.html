@@ -5,11 +5,14 @@
     <title>Forms</title>
 </head>
 <body>
+<!-- Include iframe for graph visualization -->
+<iframe id="graphFrame" src="graph.html" style="display:none;"></iframe>
+
 <!-- Form for uploading configuration file -->
-<form action="http://localhost:8080/upload" method="post" enctype="multipart/form-data" target="graphFrame">
+<form id="uploadForm" action="http://localhost:8080/upload" method="post" enctype="multipart/form-data" target="graphFrame">
     <label for="configFile">Choose File:</label>
     <input type="file" id="configFile" name="configFile">
-    <input type="submit" value="Deploy">
+    <input type="submit" value="Deploy" onclick="uploadFile()">
 </form>
 
 <br>
@@ -24,5 +27,30 @@
     <br>
     <input type="submit" value="Send">
 </form>
+
+<script>
+function uploadFile() {
+    const formData = new FormData(document.getElementById('uploadForm'));
+
+    fetch('http://localhost:8080/upload', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.text()) // Assume the server returns the XML data as text
+    .then(data => {
+        // Update the graph with the response data
+        updateGraph(data);
+    })
+    .catch(error => console.error('Error:', error));
+}
+
+function updateGraph(xmlData) {
+    // Assuming you have a function to handle this in your graph.js
+    const iframe = document.getElementById('graphFrame');
+    iframe.contentWindow.postMessage({ type: 'UPDATE_GRAPH', xmlData: xmlData }, '*');
+}
+</script>
+
+
 </body>
 </html>

@@ -1,5 +1,6 @@
 package graph;
 
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.*;
 
@@ -8,6 +9,19 @@ import java.util.*;
 /// ID : 31628022
 
 import graph.TopicManagerSingleton.TopicManager;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+
+
 
 public class Graph extends ArrayList<Node>{
 
@@ -72,6 +86,48 @@ public class Graph extends ArrayList<Node>{
         }
 
     }
+
+	// Method to generate XML from the graph
+	public String generateXML() throws Exception {
+		// Create a DocumentBuilderFactory
+		DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
+
+		// Create a new Document
+		Document doc = docBuilder.newDocument();
+
+		// Create the root element
+		Element rootElement = doc.createElement("graph");
+		doc.appendChild(rootElement);
+
+		// Iterate through nodes in the graph
+		for (Node node : this) {
+			// Create node element
+			Element nodeElement = doc.createElement("node");
+			nodeElement.setAttribute("id", node.getName());
+			rootElement.appendChild(nodeElement);
+
+			// Add edges
+			for (Node neighbor : node.getEdges()) {
+				Element edgeElement = doc.createElement("edge");
+				edgeElement.setAttribute("to", neighbor.getName());
+				nodeElement.appendChild(edgeElement);
+			}
+		}
+
+		// Convert the Document to a String
+		TransformerFactory transformerFactory = TransformerFactory.newInstance();
+		Transformer transformer = transformerFactory.newTransformer();
+		transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+		DOMSource source = new DOMSource(doc);
+		StringWriter writer = new StringWriter();
+		StreamResult result = new StreamResult(writer);
+		transformer.transform(source, result);
+
+		return writer.toString();
+	}
+
+
 
 
 }

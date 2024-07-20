@@ -6,6 +6,6 @@ import java.io.OutputStream;
 import server.RequestParser.RequestInfo;
 
 public interface Servlet {
-    void handle(RequestInfo ri, OutputStream toClient) throws IOException;
+    void handle(RequestInfo ri, OutputStream toClient) throws Exception;
     void close() throws IOException;
 }
