@@ -12,6 +12,8 @@ public class PlusAgent implements Agent {
     private double x = 0;
     private double y = 0;
 
+    private String result = "";
+
     // Constructor
     public PlusAgent(String[] subs, String[] pubs) {
         this.subs = subs;
@@ -63,7 +65,9 @@ public class PlusAgent implements Agent {
             this.y = msg.asDouble;
         }
         if (Double.isNaN(x) == false && Double.isNaN(y) == false) {
-            publish(this.x + this.y);
+            Double res = this.x + this.y;
+            this.result = res.toString();
+            publish(res);
         }
     }
 
@@ -75,6 +79,11 @@ public class PlusAgent implements Agent {
     @Override
     public void close() {
        
+    }
+
+    @Override
+    public String getResult() {
+        return this.result;
     }
 }
 

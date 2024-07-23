@@ -2,103 +2,29 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Graph Visualization</title>
+    <title>Graph</title>
     <style>
+        /* Ensure the canvas takes up half of the page width */
+        #graphDiv {
+            border: 8px solid #ccc; /* Adds a border around the div */
+            width: 100%; /* Use full width */
+            height: 100%; /* Use full height */
+            overflow: auto;         /* Allows scrolling if the content overflows */
+            padding: 10px;         /* Adds some padding inside the div */
+            background-color: white; /* Sets the background color to white */
+            box-sizing: border-box; /* Includes border and padding in the element's total width and height */
+        }
         canvas {
-            border: 1px solid black;
+            width: 100%; /* Use full width */
+            height: 100%; /* Use full height */
+            border: 1px solid black; /* Optional: adds a border to the canvas for better visibility */
+            background-color: white;
         }
     </style>
 </head>
 <body>
-<canvas id="graphCanvas" width="800" height="600"></canvas>
-<script>
-document.addEventListener("DOMContentLoaded", function () {
-    const canvas = document.getElementById("graphCanvas");
-    const ctx = canvas.getContext("2d");
-
-    // Parse XML and build graph data
-    function parseXML(xmlString) {
-        const parser = new DOMParser();
-        const xmlDoc = parser.parseFromString(xmlString, "application/xml");
-        const nodes = xmlDoc.getElementsByTagName("node");
-        const edges = xmlDoc.getElementsByTagName("edge");
-
-        const graph = {
-            nodes: {},
-            edges: []
-        };
-
-        Array.from(nodes).forEach(node => {
-            const id = node.getAttribute("id");
-            const type = id.startsWith("T") ? "rectangle" : "circle";
-            graph.nodes[id] = {
-                type: type,
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height
-            };
-        });
-
-        Array.from(edges).forEach(edge => {
-            const fromNodeId = edge.parentElement.getAttribute("id");
-            const toNodeId = edge.getAttribute("to");
-            graph.edges.push({ from: fromNodeId, to: toNodeId });
-        });
-
-        return graph;
-    }
-
-    // Draw the graph
-    function drawGraph(graph) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-        // Draw edges
-        graph.edges.forEach(edge => {
-            const from = graph.nodes[edge.from];
-            const to = graph.nodes[edge.to];
-            ctx.beginPath();
-            ctx.moveTo(from.x, from.y);
-            ctx.lineTo(to.x, to.y);
-            ctx.strokeStyle = "#000";
-            ctx.stroke();
-        });
-
-        // Draw nodes
-        for (const [id, node] of Object.entries(graph.nodes)) {
-            ctx.beginPath();
-            if (node.type === "rectangle") {
-                ctx.rect(node.x - 20, node.y - 10, 40, 20);
-                ctx.strokeStyle = "#00F";
-                ctx.stroke();
-                ctx.fillStyle = "#CCF";
-                ctx.fill();
-            } else {
-                ctx.arc(node.x, node.y, 20, 0, Math.PI * 2);
-                ctx.strokeStyle = "#F00";
-                ctx.stroke();
-                ctx.fillStyle = "#FCC";
-                ctx.fill();
-            }
-            ctx.font = "12px Arial";
-            ctx.fillStyle = "#000";
-            ctx.textAlign = "center";
-            ctx.fillText(id, node.x, node.y + 4);
-        }
-    }
-
-    // Expose functions for external use
-    window.parseXML = parseXML;
-    window.drawGraph = drawGraph;
-});
-</script>
-<script>
-window.addEventListener('message', function(event) {
-    if (event.data.type === 'UPDATE_GRAPH') {
-        const xmlData = event.data.xmlData;
-        const graph = parseXML(xmlData);
-        drawGraph(graph);
-    }
-});
-</script>
+<div id="graphDiv">
+    <canvas id="graphCanvas" width="1200" height="1200"></canvas>
+</div>
 </body>
 </html>

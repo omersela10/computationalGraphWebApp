@@ -3,22 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <title>Forms</title>
+    <style>
+        form {
+            margin: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="file"],
+        input[type="text"],
+        input[type="submit"] {
+            margin-bottom: 10px;
+        }
+    </style>
 </head>
 <body>
-<!-- Include iframe for graph visualization -->
-<iframe id="graphFrame" src="graph.html" style="display:none;"></iframe>
-
-<!-- Form for uploading configuration file -->
-<form id="uploadForm" action="http://localhost:8080/upload" method="post" enctype="multipart/form-data" target="graphFrame">
+<form id="uploadForm" enctype="multipart/form-data">
     <label for="configFile">Choose File:</label>
     <input type="file" id="configFile" name="configFile">
-    <input type="submit" value="Deploy" onclick="uploadFile()">
+    <input type="submit" value="Deploy">
 </form>
 
 <br>
 
-<!-- Form for sending message to topic -->
-<form action="http://localhost:8080/publish" method="get" target="tableFrame">
+<form id="topicForm" action="http://localhost:8080/publish" method="get" target="tableFrame" onsubmit="sendTopic(event)">
     <label for="topicName">Topic name:</label>
     <input type="text" id="topicName" name="topicName">
     <br>
@@ -28,29 +39,11 @@
     <input type="submit" value="Send">
 </form>
 
-<script>
-function uploadFile() {
-    const formData = new FormData(document.getElementById('uploadForm'));
-
-    fetch('http://localhost:8080/upload', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.text()) // Assume the server returns the XML data as text
-    .then(data => {
-        // Update the graph with the response data
-        updateGraph(data);
-    })
-    .catch(error => console.error('Error:', error));
-}
-
-function updateGraph(xmlData) {
-    // Assuming you have a function to handle this in your graph.js
-    const iframe = document.getElementById('graphFrame');
-    iframe.contentWindow.postMessage({ type: 'UPDATE_GRAPH', xmlData: xmlData }, '*');
-}
-</script>
-
-
+<form id="expressionForm" action="http://localhost:8080/uploadExpression" method="post">
+    <label for="expression">Enter expression:</label>
+    <input type="text" id="expression" name="expression">
+    <br>
+    <input type="submit" value="Submit">
+</form>
 </body>
 </html>

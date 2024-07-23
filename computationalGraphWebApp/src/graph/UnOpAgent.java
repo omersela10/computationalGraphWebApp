@@ -12,6 +12,7 @@ public class UnOpAgent implements Agent{
     private String outputTopicName;
     private UnaryOperator<Double> operation;
 
+    private String result = "";
     private Double input;
 
     public static final Map<String, UnaryOperator<Double>> operators = new HashMap<>() {{
@@ -56,6 +57,7 @@ public class UnOpAgent implements Agent{
     private void executeMathOperation() {
 
         Double result = operation.apply(input);
+        this.result = result.toString();
         publish(result);
     }
 
@@ -82,6 +84,11 @@ public class UnOpAgent implements Agent{
     // Method to close the agent and release resources
     public void close() {
 
+    }
+
+    @Override
+    public String getResult() {
+        return this.result;
     }
 
     // Method to publish the result to the output topic
