@@ -2,11 +2,65 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Configuration and Graph Viewer</title>
+    <title>Computational Graph</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+
+        header {
+            text-align: center;
+            background-color: #f8f8f8;
+            padding: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        main {
+            display: flex;
+            flex: 1;
+        }
+
+        iframe {
+            border: none;
+        }
+
+        iframe[name="formFrame"] {
+            width: 10%;
+            min-width: 200px;
+        }
+
+        iframe[name="graphFrame"] {
+            width: 85%;
+            min-width: 900px;
+        }
+
+        iframe[name="tableFrame"] {
+            width: 5%;
+            min-width: 200px;
+        }
+
+        footer {
+            text-align: center;
+            background-color: #f8f8f8;
+            padding: 10px;
+            font-size: 14px;
+        }
+    </style>
 </head>
 <body>
-<iframe name="formFrame" src="form.html" style="width: 30%; height: 100vh; float: left;"></iframe>
-<iframe name="graphFrame" src="graph.html" style="width: 40%; height: 100vh; float: left;"></iframe>
-<iframe name="tableFrame" src="temp.html" style="width: 30%; height: 100vh; float: left;"></iframe>
+<header>Computational Graph</header>
+<main>
+    <iframe name="formFrame" src="form.html"></iframe>
+    <iframe name="graphFrame" src="graph.html"></iframe>
+    <iframe name="tableFrame" src="temp.html"></iframe>
+</main>
+<footer> &#169; Ahigad Genish & Omer Sela</footer>
+<script src="javascript.js"></script>
 </body>
 </html>

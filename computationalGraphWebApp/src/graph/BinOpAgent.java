@@ -17,6 +17,8 @@ public class BinOpAgent implements Agent {
     private Double firstInput;
     private Double secondInput;
 
+    private String result = "";
+
     public static final Map<String, BinaryOperator<Double>> operators = new HashMap<>() {{
         put("plus", (x, y) -> x + y);
         put("minus", (x, y) -> x - y);
@@ -62,6 +64,7 @@ public class BinOpAgent implements Agent {
     private void executeMathOperation() {
 
         Double result = operation.apply(firstInput, secondInput);
+        this.result = result.toString();
         publish(result);
     }
 
@@ -92,6 +95,11 @@ public class BinOpAgent implements Agent {
     // Method to close the agent and release resources
     public void close() {
 
+    }
+
+    @Override
+    public String getResult() {
+        return this.result;
     }
 
     // Method to publish the result to the output topic

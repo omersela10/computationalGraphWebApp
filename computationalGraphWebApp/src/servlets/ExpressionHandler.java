@@ -1,33 +1,44 @@
 package servlets;
 
+import configs.ExpressionParser;
 import configs.GraphConfig;
 import graph.Graph;
 import graph.TopicManagerSingleton;
 import server.RequestParser;
-import server.RequestParser.RequestInfo;
-import java.util.regex.Pattern;
-import java.io.*;
-import java.nio.file.*;
-import java.util.*;
 
-public class ConfLoader implements Servlet {
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.List;
 
+public class ExpressionHandler implements Servlet{
     @Override
-    public void handle(RequestInfo ri, OutputStream toClient) throws IOException {
+    public void handle(RequestParser.RequestInfo ri, OutputStream toClient) throws Exception {
+        // Get the request body as a string
+        String requestBody = new String(ri.getContent());
 
-        byte[] content = ri.getContent();
-        // Extract content excluding multipart boundaries
-        String cleanedContent = extractFileContent(content);
 
-        // Define the path where you want to save the uploaded file
+        // Extract the expression using string manipulation or regular expressions (if needed)
+        String expression =  requestBody.split("\n")[0];
+        // Log and process the expression
+        System.out.println("Received expression: " + expression);
+
+        // Parse and convert the expression
+        List<String> parsedExpression = ExpressionParser.parseExpression(expression);
+        System.out.println("Parsed Expression: " + parsedExpression);
+        String config = ExpressionParser.convertToConfiguration(parsedExpression);
+
+        // Save the configuration to a file
         Path dirPath = Paths.get("C:\\Users\\USER\\git\\computationalGraphWebAppGit\\computationalGraphWebApp\\config_files");
 
-        if (Files.exists(dirPath) == false) {
+        if (!Files.exists(dirPath)) {
             Files.createDirectories(dirPath);
         }
 
         Path filePath = dirPath.resolve("uploadedFile");
-        Files.write(filePath, cleanedContent.getBytes());
+        Files.write(filePath, config.getBytes());
 
         resetGraphAndFields();
 
@@ -54,23 +65,12 @@ public class ConfLoader implements Servlet {
 
     @Override
     public void close() throws IOException {
-        // Cleanup resources if necessary
-    }
 
-    private String extractFileContent(byte[] content) throws IOException {
-        // Convert byte array to string
-        String contentString = new String(content, "UTF-8");
-
-        // Regex pattern to match and exclude boundary strings
-        Pattern boundaryPattern = Pattern.compile("--(.*?)\\r?\\n");
-        String cleanedContent = boundaryPattern.matcher(contentString).replaceAll("");
-
-        // Remove any extra boundary markers or metadata
-        return cleanedContent.trim();
     }
 
     private void resetGraphAndFields(){
         TopicManagerSingleton.get().clear();
         TopicDisplayer.topicToCurrentMessage.clear();
     }
+
 }

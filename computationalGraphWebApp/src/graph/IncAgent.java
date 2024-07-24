@@ -11,6 +11,7 @@ public class IncAgent implements Agent {
     private String[] pubs;
     private Double value;
 
+    private String result = "";
     // Constructor
     public IncAgent(String[] subs, String[] pubs) {
     	
@@ -53,7 +54,9 @@ public class IncAgent implements Agent {
         if (topic.equals(subs[0]) == true) {
         	
             this.value = msg.asDouble;
-            publish(this.value + 1);
+            Double res = this.value + 1;
+            result = res.toString();
+            publish(res);
         }
     }
 
@@ -68,5 +71,10 @@ public class IncAgent implements Agent {
     @Override
     public void close() {
         
+    }
+
+    @Override
+    public String getResult() {
+        return this.result;
     }
 }

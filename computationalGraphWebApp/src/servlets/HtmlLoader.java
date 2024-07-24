@@ -1,9 +1,7 @@
 package servlets;
 
 import java.io.*;
-import java.nio.file.*;
 import java.util.regex.*;
-
 import server.RequestParser.RequestInfo;
 
 public class HtmlLoader implements Servlet {
@@ -15,15 +13,18 @@ public class HtmlLoader implements Servlet {
 
     @Override
     public void handle(RequestInfo requestInfo, OutputStream out) throws IOException {
-
-        serveParsedHtml("index.html", out);
+        String uri = requestInfo.getUri();
+        if (uri.equals("/app") || uri.equals("/index.html")) {
+            serveParsedHtml("index.html", out);
+        } else {
+            serveStaticFile(uri, out);
+        }
     }
 
     private void serveParsedHtml(String filename, OutputStream out) throws IOException {
-
         File file = new File(htmlDir, filename);
 
-        if (file.exists() == false || file.isFile() == false) {
+        if (!file.exists() || !file.isFile()) {
             send404(out);
             return;
         }
@@ -37,29 +38,90 @@ public class HtmlLoader implements Servlet {
         }
 
         String content = contentBuilder.toString();
+
+        // Pattern for iframes
         Pattern iframePattern = Pattern.compile("<iframe\\s+[^>]*src=\"([^\"]*)\"[^>]*></iframe>");
         Matcher matcher = iframePattern.matcher(content);
 
         StringBuffer result = new StringBuffer();
-        while (matcher.find() == true) {
+        while (matcher.find()) {
             String src = matcher.group(1);
             String replacement = loadHtmlContent(src);
             matcher.appendReplacement(result, Matcher.quoteReplacement(replacement));
         }
         matcher.appendTail(result);
 
+        // Update the content with script file content
+        content = result.toString();
+        content = includeScriptFileContent(content, "C:\\Users\\USER\\git\\computationalGraphWebAppGit\\computationalGraphWebApp\\src\\views\\javascript.js");
+
         try (PrintWriter writer = new PrintWriter(out)) {
             writer.println("HTTP/1.1 200 OK");
             writer.println("Content-Type: text/html");
-            writer.println("Content-Length: " + result.length());
+            writer.println("Content-Length: " + content.length());
             writer.println();
-            writer.println(result.toString());
+            writer.println(content);
+        }
+    }
+
+    private String includeScriptFileContent(String htmlContent, String scriptFilePath) throws IOException {
+        File scriptFile = new File(scriptFilePath);
+        if (!scriptFile.exists() || !scriptFile.isFile()) {
+            return htmlContent;
+        }
+
+        StringBuilder scriptContentBuilder = new StringBuilder();
+        try (BufferedReader reader = new BufferedReader(new FileReader(scriptFile))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                scriptContentBuilder.append(line).append("\n");
+            }
+        }
+
+        String scriptContent = scriptContentBuilder.toString();
+        String scriptTag = "<script src=\"javascript.js\"></script>";
+        String scriptTagReplacement = "<script>" + scriptContent + "</script>";
+
+        return htmlContent.replace(scriptTag, scriptTagReplacement);
+    }
+
+    private void serveStaticFile(String uri, OutputStream out) throws IOException {
+        String filename = uri.startsWith("/") ? uri.substring(1) : uri;
+        File file = new File(htmlDir, filename);
+
+        if (!file.exists() || !file.isFile()) {
+            send404(out);
+            return;
+        }
+
+        String contentType;
+        if (filename.endsWith(".js")) {
+            contentType = "application/javascript";
+        } else if (filename.endsWith(".html")) {
+            contentType = "text/html";
+        } else {
+            contentType = "text/plain";
+        }
+
+        try (InputStream in = new FileInputStream(file);
+             PrintWriter writer = new PrintWriter(out)) {
+            writer.println("HTTP/1.1 200 OK");
+            writer.println("Content-Type: " + contentType);
+            writer.println("Content-Length: " + file.length());
+            writer.println();
+            writer.flush();
+
+            byte[] buffer = new byte[1024];
+            int bytesRead;
+            while ((bytesRead = in.read(buffer)) != -1) {
+                out.write(buffer, 0, bytesRead);
+            }
         }
     }
 
     private String loadHtmlContent(String relativePath) throws IOException {
         File file = new File(htmlDir, relativePath);
-        if (file.exists() == false || file.isFile() == false) {
+        if (!file.exists() || !file.isFile()) {
             return "<!-- File not found: " + relativePath + " -->";
         }
 

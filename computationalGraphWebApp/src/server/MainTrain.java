@@ -76,8 +76,9 @@ public class MainTrain {
     	
     	 // Create HTML file for testing
         HTTPServer myServer = new MyHTTPServer(8080, 5);
+        myServer.addServlet("GET", "/publish", new TopicDisplayer());
         myServer.addServlet("GET", "/app", new HtmlLoader("C:\\Users\\USER\\git\\computationalGraphWebAppGit\\computationalGraphWebApp\\html_files"));
-
+        myServer.addServlet("POST", "/uploadExpression", new ExpressionHandler());
         myServer.addServlet("POST", "/upload", new ConfLoader());
         myServer.start();
 
