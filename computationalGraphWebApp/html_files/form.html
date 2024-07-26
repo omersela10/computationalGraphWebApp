@@ -18,6 +18,10 @@
         input[type="submit"] {
             margin-bottom: 10px;
         }
+
+        #expressionForm {
+            margin-top: 20px; /* Adjust the spacing as needed */
+        }
     </style>
 </head>
 <body>
@@ -27,7 +31,12 @@
     <input type="submit" value="Deploy">
 </form>
 
-<br>
+<form id="expressionForm" action="http://localhost:8080/uploadExpression" method="post">
+    <label for="expression">Enter expression:</label>
+    <input type="text" id="expression" name="expression">
+    <br>
+    <input type="submit" value="Submit">
+</form>
 
 <form id="topicForm" action="http://localhost:8080/publish" method="get" target="tableFrame" onsubmit="sendTopic(event)">
     <label for="topicName">Topic name:</label>
@@ -37,13 +46,6 @@
     <input type="text" id="message" name="message">
     <br>
     <input type="submit" value="Send">
-</form>
-
-<form id="expressionForm" action="http://localhost:8080/uploadExpression" method="post">
-    <label for="expression">Enter expression:</label>
-    <input type="text" id="expression" name="expression">
-    <br>
-    <input type="submit" value="Submit">
 </form>
 </body>
 </html>
