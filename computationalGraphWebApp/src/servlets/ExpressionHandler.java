@@ -22,36 +22,37 @@ public class ExpressionHandler implements Servlet{
 
         // Extract the expression using string manipulation or regular expressions (if needed)
         String expression =  requestBody.split("\n")[0];
-        // Log and process the expression
-        System.out.println("Received expression: " + expression);
 
-        // Parse and convert the expression
-        List<String> parsedExpression = ExpressionParser.parseExpression(expression);
-        System.out.println("Parsed Expression: " + parsedExpression);
-        String config = ExpressionParser.convertToConfiguration(parsedExpression);
+        try {
+            // Parse and convert the expression
+            List<String> parsedExpression = ExpressionParser.parseExpression(expression);
+            String config = ExpressionParser.convertToConfiguration(parsedExpression);
 
-        // Save the configuration to a file
-        Path dirPath = Paths.get("C:\\Users\\USER\\git\\computationalGraphWebAppGit\\computationalGraphWebApp\\config_files");
+            // Save the configuration to a file
+            Path dirPath = Paths.get("./config_files");
 
-        if (!Files.exists(dirPath)) {
-            Files.createDirectories(dirPath);
+            if (Files.exists(dirPath) == false) {
+                Files.createDirectories(dirPath);
+            }
+
+            Path filePath = dirPath.resolve("uploadedFile");
+            Files.write(filePath, config.getBytes());
+            resetGraphAndFields();
+
+            GraphConfig graphConfig = new GraphConfig();
+            graphConfig.setConfFile(String.valueOf(filePath));
+            graphConfig.create();
         }
-
-        Path filePath = dirPath.resolve("uploadedFile");
-        Files.write(filePath, config.getBytes());
-
-        resetGraphAndFields();
-
-        GraphConfig graphConfig = new GraphConfig();
-        graphConfig.setConfFile(String.valueOf(filePath));
-        graphConfig.create();
-
+        catch (Exception e){
+            invalidParameterResponse(toClient, "Invalid expression");
+            return;
+        }
 
         Graph theGraph = new Graph();
         theGraph.createFromTopics();
 
         if(theGraph.hasCycles() == true){
-            invalidParameterResponse(toClient);
+            invalidParameterResponse(toClient , "Cycle detected in the given graph");
             return;
         }
 
@@ -77,8 +78,8 @@ public class ExpressionHandler implements Servlet{
         TopicDisplayer.topicToCurrentMessage.clear();
     }
 
-    private void invalidParameterResponse(OutputStream toClient) throws IOException {
-        String errorResponse = "Error : Cycle detected in the given graph";
+    private void invalidParameterResponse(OutputStream toClient, String errorMessage) throws IOException {
+        String errorResponse = "Error : " + errorMessage;
         byte[] responseBytes = errorResponse.getBytes();
 
         // Setting HTTP response headers manually

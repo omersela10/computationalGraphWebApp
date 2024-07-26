@@ -16,32 +16,37 @@ public class ConfLoader implements Servlet {
     public void handle(RequestInfo ri, OutputStream toClient) throws IOException {
 
         byte[] content = ri.getContent();
-        // Extract content excluding multipart boundaries
-        String cleanedContent = extractFileContent(content);
 
-        // Define the path where you want to save the uploaded file
-        Path dirPath = Paths.get("C:\\Users\\USER\\git\\computationalGraphWebAppGit\\computationalGraphWebApp\\config_files");
+        try {
+            // Extract content excluding multipart boundaries
+            String cleanedContent = extractFileContent(content);
 
-        if (Files.exists(dirPath) == false) {
-            Files.createDirectories(dirPath);
+            // Define the path where you want to save the uploaded file
+            Path dirPath = Paths.get("./config_files");
+
+            if (Files.exists(dirPath) == false) {
+                Files.createDirectories(dirPath);
+            }
+
+            Path filePath = dirPath.resolve("uploadedFile");
+            Files.write(filePath, cleanedContent.getBytes());
+
+            resetGraphAndFields();
+
+            GraphConfig graphConfig = new GraphConfig();
+            graphConfig.setConfFile(String.valueOf(filePath));
+            graphConfig.create();
         }
-
-        Path filePath = dirPath.resolve("uploadedFile");
-        Files.write(filePath, cleanedContent.getBytes());
-
-        resetGraphAndFields();
-
-        GraphConfig graphConfig = new GraphConfig();
-        graphConfig.setConfFile(String.valueOf(filePath));
-        graphConfig.create();
-
-
+        catch (Exception e){
+            invalidParameterResponse(toClient, "Invalid expression");
+            return;
+        }
 
         Graph theGraph = new Graph();
         theGraph.createFromTopics();
 
         if(theGraph.hasCycles() == true) {
-            invalidParameterResponse(toClient);
+            invalidParameterResponse(toClient , "Cycle detected in the given graph");
             return;
         }
 
@@ -79,8 +84,8 @@ public class ConfLoader implements Servlet {
         TopicDisplayer.topicToCurrentMessage.clear();
     }
 
-    private void invalidParameterResponse(OutputStream toClient) throws IOException {
-        String errorResponse = "Error : Cycle detected in the given graph";
+    private void invalidParameterResponse(OutputStream toClient, String errorMessage) throws IOException {
+        String errorResponse = "Error : " + errorMessage;
         byte[] responseBytes = errorResponse.getBytes();
 
         // Setting HTTP response headers manually

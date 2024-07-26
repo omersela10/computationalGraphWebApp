@@ -5,6 +5,7 @@ import java.io.OutputStream;
 
 import server.RequestParser.RequestInfo;
 
+// Servlet interface
 public interface Servlet {
     void handle(RequestInfo ri, OutputStream toClient) throws Exception;
     void close() throws IOException;

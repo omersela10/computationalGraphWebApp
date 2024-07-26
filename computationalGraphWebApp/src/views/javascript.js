@@ -1,3 +1,8 @@
+
+
+// Java Script file contains .js functions
+
+// Upload file function
 function uploadFile() {
     const formData = new FormData(document.getElementById('uploadForm'));
 
@@ -8,18 +13,17 @@ function uploadFile() {
     })
     .then(response => response.text()) // Assume the server returns text data
     .then(data => {
-        // Get the graphDiv element
-        const graphDiv = document.getElementById("graphCanvas");
-        const graphTitle = document.getElementById("graphTitle");
-        console.log("The response from upload is")
-        console.log(data);
+         // Log
+        console.log("The response from upload is", data);
+        // Get the canvas element
         const canvas = document.getElementById("graphCanvas");
-         const ctx = canvas.getContext("2d");
-          ctx.clearRect(0, 0, graphDiv.width, graphDiv.height);
-        // Display the server response in the graphDiv
-        // Clear any existing content
-        graphDiv.innerHTML = '';
 
+        // Clear any existing content
+        const ctx = canvas.getContext("2d");
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        canvas.innerHTML = '';
+
+        // Display the server response in the canvas
         if (data.includes("Error")) {
            // Update the title to show the error message
            graphTitle.textContent = data;
@@ -28,41 +32,43 @@ function uploadFile() {
            return;
        }
 
-       graphTitle.textContent = "Graph";
-       // Parse the uploaded XML data
-       const graph = parseXML(data);
+        graphTitle.textContent = "Graph";
 
+        // Parse the uploaded XML data
+        const graph = parseXML(data);
 
-      drawGraph(graph, ctx);
+        drawGraph(graph, ctx);
     })
     .catch(error => console.error('Error:', error));
 }
 
 
-
+// Parse expression function
 function parseExpression(event) {
     event.preventDefault(); // Prevent form from submitting the traditional way
     const formData = new FormData(document.getElementById('expressionForm'));
 
-       const body = `expression=${encodeURIComponent(expression)}`;
-       const url = 'http://localhost:8080/uploadExpression';
-      console.log("Request URL:", url);
+   const body = `expression=${encodeURIComponent(expression)}`;
+   const url = 'http://localhost:8080/uploadExpression';
+   console.log("Request URL:", url);
 
-  fetch(url, {
+   fetch(url, {
       method: 'POST',
       body: formData
     })
     .then(response => response.text())
     .then(data => {
+        // Log
         console.log("The response from upload is", data);
-        // Get the graphDiv element
-        const graphDiv = document.getElementById("graphCanvas");
-         const canvas = document.getElementById("graphCanvas");
-         const ctx = canvas.getContext("2d");
-          ctx.clearRect(0, 0, graphDiv.width, graphDiv.height);
-        // Display the server response in the graphDiv
+        // Get the canvas element
+        const canvas = document.getElementById("graphCanvas");
+
         // Clear any existing content
-        graphDiv.innerHTML = '';
+        const ctx = canvas.getContext("2d");
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        canvas.innerHTML = '';
+
+        // Display the server response in the canvas
 
         if (data.includes("Error")) {
            // Update the title to show the error message
@@ -73,6 +79,7 @@ function parseExpression(event) {
        }
 
         graphTitle.textContent = "Graph";
+
         // Parse the uploaded XML data
         const graph = parseXML(data);
 
@@ -81,12 +88,13 @@ function parseExpression(event) {
     .catch(error => console.error('Error:', error));
 }
 
+// Listener to the submit button of the expression form to raise the parseExpression function
 document.addEventListener('DOMContentLoaded', function () {
     const expressionForm = document.getElementById('expressionForm');
     expressionForm.addEventListener('submit', parseExpression);
 });
 
-
+// Send topic function
 function sendTopic(event) {
     event.preventDefault(); // Prevent the form from submitting the default way
 
@@ -110,12 +118,13 @@ function sendTopic(event) {
         // Update the tableDiv with the new content
         tableDiv.innerHTML = data; // Insert HTML content directly
 
-        console.log("The response from publish is");
-        console.log(data);
+        // Log
+        console.log("The response from publish is ", data);
     })
     .catch(error => console.error('Error:', error));
 }
 
+// Listener to the submit button of the upload form to raise the parseExpression function
 document.addEventListener('DOMContentLoaded', function () {
     const uploadForm = document.getElementById('uploadForm');
 
@@ -126,13 +135,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-
-function updateGraph(xmlData) {
-    // Assuming you have a function to handle this in your graph.js
-    const iframe = document.getElementById('graphFrame');
-    iframe.contentWindow.postMessage({ type: 'UPDATE_GRAPH', xmlData: xmlData }, '*');
-}
-
+// Event listener to the DOM
 document.addEventListener("DOMContentLoaded", function () {
     const canvas = document.getElementById("graphCanvas");
     const ctx = canvas.getContext("2d");
@@ -172,13 +175,10 @@ document.addEventListener("DOMContentLoaded", function () {
     function drawGraph(graph) {
         const canvas = document.getElementById('graphCanvas');
         const ctx = canvas.getContext('2d');
-
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-
         const centerX = canvas.width / 2;
         const centerY = canvas.height / 2;
         const radius = Math.min(centerX, centerY) * 0.8; // Adjust radius as needed
-
         const numNodes = Object.keys(graph.nodes).length;
         const angleStep = (Math.PI * 2) / numNodes;
 
@@ -193,48 +193,45 @@ document.addEventListener("DOMContentLoaded", function () {
         // Draw nodes with modified labels
         for (const [id, node] of Object.entries(graph.nodes)) {
             let label = id;
-
             if (id.startsWith("T")) {
                 label = id.slice(1); // Remove leading "T"
             } else if (id.startsWith("A")) {
-                label = id.replace("A", "Agent"); // Remove leading "A" and add "(Agent)"
+                label = id.replace("A", "Agent"); // Remove leading "A" and add "Agent"
             }
 
             ctx.beginPath();
             if (node.type === "rectangle") {
-                ctx.rect(node.x - 30, node.y - 15, 60, 30); // Adjust size if needed
+                ctx.rect(node.x - 50, node.y - 25, 100, 50); // Enlarged rectangle
                 ctx.strokeStyle = "#00F";
                 ctx.stroke();
                 ctx.fillStyle = "#CCF";
                 ctx.fill();
             } else {
-                const circleRadius = 40; // Adjust circle radius
+                const circleRadius = 60; // Enlarged circle radius
                 ctx.arc(node.x, node.y, circleRadius, 0, Math.PI * 2);
                 ctx.strokeStyle = "#F00";
                 ctx.stroke();
                 ctx.fillStyle = "#FCC";
                 ctx.fill();
             }
-            ctx.font = "12px Arial";
+
+            ctx.font = "14px Arial"; // Slightly larger font
             ctx.fillStyle = "#000";
             ctx.textAlign = "center";
-            ctx.fillText(label, node.x, node.y + 5); // Adjust text position if needed
+            ctx.fillText(label, node.x, node.y + 5);
         }
 
         // Draw edges with arrows
         graph.edges.forEach(edge => {
             const from = graph.nodes[edge.from];
             const to = graph.nodes[edge.to];
-
-            // Calculate the direction and length of the edge
             const dx = to.x - from.x;
             const dy = to.y - from.y;
             const length = Math.sqrt(dx * dx + dy * dy);
 
-            // Calculate new start and end points with a 25px reduction each side
-            const reduction = 25; // Reduction amount in pixels
-            const scale = (length - 2 * reduction) / length; // Scale factor to reduce length
-
+            // Calculate new start and end points with a 35px reduction each side
+            const reduction = 35; // Increased reduction to account for larger nodes
+            const scale = (length - 2 * reduction) / length;
             const startX = from.x + dx * reduction / length;
             const startY = from.y + dy * reduction / length;
             const endX = to.x - dx * reduction / length;
@@ -245,14 +242,13 @@ document.addEventListener("DOMContentLoaded", function () {
             ctx.moveTo(startX, startY);
             ctx.lineTo(endX, endY);
             ctx.strokeStyle = "blue";
-            ctx.lineWidth = 4; // Increase edge line width
+            ctx.lineWidth = 4;
             ctx.stroke();
 
             // Draw arrowhead
-            const arrowSize = 15; // Arrow size
-            const arrowAngle = Math.PI / 6; // Angle for the arrowhead
+            const arrowSize = 15;
+            const arrowAngle = Math.PI / 6;
             const angle = Math.atan2(dy, dx);
-
             ctx.beginPath();
             ctx.moveTo(endX, endY);
             ctx.lineTo(
@@ -264,20 +260,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 endY - arrowSize * Math.sin(angle + arrowAngle)
             );
             ctx.closePath();
-            ctx.fillStyle = "blue"; // Arrowhead color
+            ctx.fillStyle = "blue";
             ctx.fill();
         });
-}
+    }
 
     // Expose functions for external use
     window.parseXML = parseXML;
     window.drawGraph = drawGraph;
 });
 
-window.addEventListener('message', function(event) {
-    if (event.data.type === 'UPDATE_GRAPH') {
-        const xmlData = event.data.xmlData;
-        const graph = parseXML(xmlData);
-        drawGraph(graph);
-    }
-});
+
