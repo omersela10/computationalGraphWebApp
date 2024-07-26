@@ -194,6 +194,7 @@ public class RequestParser {
         return parameters;
     }
 
+    // Remove empty segments
     private static String[] removeEmptySegments(String[] segments) {
         return Arrays.stream(segments)
                                .filter(segment -> segment != null && segment.isEmpty() == false)

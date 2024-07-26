@@ -69,15 +69,11 @@ public class MainTrain {
     }
 
 
-    public static void testServer() throws Exception{
-		// implement your own tests!
-    	 
-    	// Tests
-    	
-    	 // Create HTML file for testing
+    public static void runServer() throws Exception{
+
         HTTPServer myServer = new MyHTTPServer(8080, 5);
         myServer.addServlet("GET", "/publish", new TopicDisplayer());
-        myServer.addServlet("GET", "/app", new HtmlLoader("C:\\Users\\USER\\git\\computationalGraphWebAppGit\\computationalGraphWebApp\\html_files"));
+        myServer.addServlet("GET", "/app", new HtmlLoader("./html_files"));
         myServer.addServlet("POST", "/uploadExpression", new ExpressionHandler());
         myServer.addServlet("POST", "/upload", new ConfLoader());
         myServer.start();
@@ -88,18 +84,17 @@ public class MainTrain {
         System.in.read();
         
         myServer.close();
-        
     }
     
 
     public static void main(String[] args) {
-        testParseRequest(); // 40 points
+        //testParseRequest();
         
     	System.out.println("Main");
     	try{
-            testServer(); // 60
+            runServer();
         }catch(Exception e){
-            System.out.println("your server throwed an exception (-60)");
+            System.out.println("your server thrown an exception (-60)");
         }
         System.out.println("done");
     }

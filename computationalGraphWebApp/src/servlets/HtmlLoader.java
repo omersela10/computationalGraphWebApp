@@ -21,10 +21,11 @@ public class HtmlLoader implements Servlet {
         }
     }
 
+    // Parsed main page html
     private void serveParsedHtml(String filename, OutputStream out) throws IOException {
         File file = new File(htmlDir, filename);
 
-        if (!file.exists() || !file.isFile()) {
+        if (file.exists() == false || file.isFile() == false ) {
             send404(out);
             return;
         }
@@ -64,9 +65,10 @@ public class HtmlLoader implements Servlet {
         }
     }
 
+    // Append scripts
     private String includeScriptFileContent(String htmlContent, String scriptFilePath) throws IOException {
         File scriptFile = new File(scriptFilePath);
-        if (!scriptFile.exists() || !scriptFile.isFile()) {
+        if (scriptFile.exists() == false || scriptFile.isFile() == false) {
             return htmlContent;
         }
 
@@ -85,19 +87,20 @@ public class HtmlLoader implements Servlet {
         return htmlContent.replace(scriptTag, scriptTagReplacement);
     }
 
+    // Handle parsing any file
     private void serveStaticFile(String uri, OutputStream out) throws IOException {
         String filename = uri.startsWith("/") ? uri.substring(1) : uri;
         File file = new File(htmlDir, filename);
 
-        if (!file.exists() || !file.isFile()) {
+        if (file.exists() == false || file.isFile() == false) {
             send404(out);
             return;
         }
 
         String contentType;
-        if (filename.endsWith(".js")) {
+        if (filename.endsWith(".js") == true) {
             contentType = "application/javascript";
-        } else if (filename.endsWith(".html")) {
+        } else if (filename.endsWith(".html") == true) {
             contentType = "text/html";
         } else {
             contentType = "text/plain";
@@ -119,9 +122,10 @@ public class HtmlLoader implements Servlet {
         }
     }
 
+    // Return html content from given file path
     private String loadHtmlContent(String relativePath) throws IOException {
         File file = new File(htmlDir, relativePath);
-        if (!file.exists() || !file.isFile()) {
+        if (file.exists() == false || file.isFile() == false) {
             return "<!-- File not found: " + relativePath + " -->";
         }
 
@@ -135,6 +139,7 @@ public class HtmlLoader implements Servlet {
         return contentBuilder.toString();
     }
 
+    // Return 404 error
     private void send404(OutputStream out) throws IOException {
         try (PrintWriter writer = new PrintWriter(out)) {
             writer.println("HTTP/1.1 404 Not Found");

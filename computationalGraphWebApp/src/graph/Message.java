@@ -1,6 +1,5 @@
 package graph;
 
-import java.io.UnsupportedEncodingException;
 import java.util.Date;
 
 /// Advanced Programming exercise 1

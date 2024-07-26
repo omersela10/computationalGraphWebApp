@@ -25,7 +25,11 @@ import javax.xml.transform.stream.StreamResult;
 
 public class Graph extends ArrayList<Node>{
 
+	// Data members
 	private Integer agentCounter = 1;
+
+
+	// Methods
 
 	// Detect Cycle in graph
     public boolean hasCycles() {

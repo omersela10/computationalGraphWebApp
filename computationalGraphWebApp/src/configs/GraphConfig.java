@@ -12,10 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-/// Advanced Programming exercise 4
-/// Student Name: Ahigad Genish
-/// ID : 31628022
-
+// Graph config
 public class GraphConfig implements Config {
 
     // Data Members
