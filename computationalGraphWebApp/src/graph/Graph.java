@@ -25,6 +25,8 @@ import javax.xml.transform.stream.StreamResult;
 
 public class Graph extends ArrayList<Node>{
 
+	private Integer agentCounter = 1;
+
 	// Detect Cycle in graph
     public boolean hasCycles() {
        for(Node node : this) {
@@ -55,8 +57,10 @@ public class Graph extends ArrayList<Node>{
         		if(agentSeen.containsKey(agent) == false){
         			
         			// Add this as node to the graph
-        			Node agentNode = new Node("A" + agent.getName());
+					Node agentNode = new Node("A" + this.agentCounter.toString() + " " + agent.getName());
         			this.add(agentNode);
+
+					agentCounter += 1;
         			// Mark as seen
         			agentSeen.put(agent, agentNode);
         		}
@@ -70,9 +74,10 @@ public class Graph extends ArrayList<Node>{
         		// If not seen this agent yet
         		if(agentSeen.containsKey(agent) == false){
         			// Add this as node to the graph
-        			Node agentNode = new Node("A" + agent.getName());
+					Node agentNode = new Node("A" + this.agentCounter.toString() + " " + agent.getName());
         			this.add(agentNode);
-        			
+
+					agentCounter += 1;
         			// Mark as seen
         			agentSeen.put(agent, agentNode);
         		}

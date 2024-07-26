@@ -10,20 +10,30 @@ function uploadFile() {
     .then(data => {
         // Get the graphDiv element
         const graphDiv = document.getElementById("graphCanvas");
-
+        const graphTitle = document.getElementById("graphTitle");
         console.log("The response from upload is")
         console.log(data);
+        const canvas = document.getElementById("graphCanvas");
+         const ctx = canvas.getContext("2d");
+          ctx.clearRect(0, 0, graphDiv.width, graphDiv.height);
         // Display the server response in the graphDiv
         // Clear any existing content
         graphDiv.innerHTML = '';
 
+        if (data.includes("Error")) {
+           // Update the title to show the error message
+           graphTitle.textContent = data;
+
+           console.log("Error detected in response:", data);
+           return;
+       }
+
+       graphTitle.textContent = "Graph";
        // Parse the uploaded XML data
        const graph = parseXML(data);
 
-       // Draw the parsed graph data
-       const canvas = document.getElementById("graphCanvas");
-       const ctx = canvas.getContext("2d");
-       drawGraph(graph, ctx);
+
+      drawGraph(graph, ctx);
     })
     .catch(error => console.error('Error:', error));
 }
@@ -47,16 +57,25 @@ function parseExpression(event) {
         console.log("The response from upload is", data);
         // Get the graphDiv element
         const graphDiv = document.getElementById("graphCanvas");
-
+         const canvas = document.getElementById("graphCanvas");
+         const ctx = canvas.getContext("2d");
+          ctx.clearRect(0, 0, graphDiv.width, graphDiv.height);
         // Display the server response in the graphDiv
+        // Clear any existing content
         graphDiv.innerHTML = '';
 
+        if (data.includes("Error")) {
+           // Update the title to show the error message
+           graphTitle.textContent = data;
+
+           console.log("Error detected in response:", data);
+           return;
+       }
+
+        graphTitle.textContent = "Graph";
         // Parse the uploaded XML data
         const graph = parseXML(data);
 
-        // Draw the parsed graph data
-        const canvas = document.getElementById("graphCanvas");
-        const ctx = canvas.getContext("2d");
         drawGraph(graph, ctx);
     })
     .catch(error => console.error('Error:', error));
@@ -178,7 +197,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (id.startsWith("T")) {
                 label = id.slice(1); // Remove leading "T"
             } else if (id.startsWith("A")) {
-                label = id.slice(1) + " Agent"; // Remove leading "A" and add "(Agent)"
+                label = id.replace("A", "Agent"); // Remove leading "A" and add "(Agent)"
             }
 
             ctx.beginPath();

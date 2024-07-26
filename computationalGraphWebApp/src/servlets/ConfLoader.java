@@ -40,6 +40,11 @@ public class ConfLoader implements Servlet {
         Graph theGraph = new Graph();
         theGraph.createFromTopics();
 
+        if(theGraph.hasCycles() == true) {
+            invalidParameterResponse(toClient);
+            return;
+        }
+
         String xmlParse = null;
         try {
             xmlParse = theGraph.generateXML();
@@ -72,5 +77,20 @@ public class ConfLoader implements Servlet {
     private void resetGraphAndFields(){
         TopicManagerSingleton.get().clear();
         TopicDisplayer.topicToCurrentMessage.clear();
+    }
+
+    private void invalidParameterResponse(OutputStream toClient) throws IOException {
+        String errorResponse = "Error : Cycle detected in the given graph";
+        byte[] responseBytes = errorResponse.getBytes();
+
+        // Setting HTTP response headers manually
+        String headers = "HTTP/1.1 400 Bad Request\r\n" +
+                "Content-Type: text/html\r\n" +
+                "Content-Length: " + responseBytes.length + "\r\n" +
+                "Connection: close\r\n\r\n";
+
+        toClient.write(headers.getBytes());
+        toClient.write(responseBytes);
+        toClient.flush();
     }
 }
