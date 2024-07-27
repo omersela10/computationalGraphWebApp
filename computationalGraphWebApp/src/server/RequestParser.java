@@ -242,7 +242,6 @@ public class RequestParser {
          * @param httpCommand the HTTP command (e.g., "GET", "POST")
          * @param uri the request URI
          * @param parameters a map of request parameters
-         * @param headers a map of request headers
          * @param content the content of the request body
          */
         public RequestInfo(String httpCommand, String uri, String[] uriSegments, Map<String, String> parameters, byte[] content) {
