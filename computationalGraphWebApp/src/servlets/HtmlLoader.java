@@ -54,7 +54,7 @@ public class HtmlLoader implements Servlet {
 
         // Update the content with script file content
         content = result.toString();
-        content = includeScriptFileContent(content, "C:\\Users\\USER\\git\\computationalGraphWebAppGit\\computationalGraphWebApp\\src\\views\\javascript.js");
+        content = includeScriptFileContent(content, System.getProperty("user.dir") + "/src/views/javascript.js");
 
         try (PrintWriter writer = new PrintWriter(out)) {
             writer.println("HTTP/1.1 200 OK");
