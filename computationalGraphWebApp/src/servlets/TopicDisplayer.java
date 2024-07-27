@@ -72,28 +72,27 @@ public class TopicDisplayer implements Servlet {
 
         // Generate the new body content
         StringBuilder newBodyContent = new StringBuilder();
-        newBodyContent.append("<div>\n")
-                .append("    <h1>Topic Messages</h1>\n")
-                .append("    <table>\n")
+        newBodyContent.append("<div style=\"padding: 20px; font-family: Arial, sans-serif;\">\n")
+                .append("    <h1 style=\"color: #333;\">Topic Messages</h1>\n")
+                .append("    <table style=\"border-collapse: collapse; width: 100%;\">\n")
                 .append("        <thead>\n")
                 .append("            <tr>\n")
-                .append("                <th>Topic</th>\n")
-                .append("                <th>Message</th>\n")
+                .append("                <th style=\"border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2; text-align: left;\">Topic</th>\n")
+                .append("                <th style=\"border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2; text-align: left;\">Message</th>\n")
                 .append("            </tr>\n")
                 .append("        </thead>\n")
                 .append("        <tbody>\n");
 
         for (Map.Entry<String, String> entry : topicToCurrentMessage.entrySet()) {
             newBodyContent.append("            <tr>\n")
-                    .append("                <td>").append(entry.getKey()).append("</td>\n")
-                    .append("                <td>").append(entry.getValue()).append("</td>\n")
+                    .append("                <td style=\"border: 1px solid #ddd; padding: 8px;\">").append(entry.getKey()).append("</td>\n")
+                    .append("                <td style=\"border: 1px solid #ddd; padding: 8px;\">").append(entry.getValue()).append("</td>\n")
                     .append("            </tr>\n");
         }
 
         newBodyContent.append("        </tbody>\n")
                 .append("    </table>\n")
                 .append("</div>\n");
-
 
         // Write the HTTP response headers
         String responseContent = newBodyContent.toString();
