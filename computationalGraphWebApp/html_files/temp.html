@@ -3,29 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <title>Topics</title>
-    <!-- Table Style -->
     <style>
         body {
             font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
         }
-
         form {
             margin: 20px;
         }
-
         label {
             display: block;
             margin-bottom: 10px;
         }
-
-        input[type="file"],
-        input[type="text"],
-        input[type="submit"] {
+        input[type="file"], input[type="text"], input[type="submit"] {
             margin-bottom: 10px;
         }
-
         #tableDiv {
-            width: 300px;
+            width: 600px;
             height: 800px;
             border: 1px solid black;
             margin: 20px;
@@ -35,8 +33,9 @@
     </style>
 </head>
 <body>
-<!-- Table iframe -->
-<div id="tableDiv" width="300" height="800"></div>
 
+<div id="tableDiv">
+    <h1 id="topicTitle">Topics</h1>
+</div>
 </body>
 </html>
