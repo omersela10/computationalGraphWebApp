@@ -85,9 +85,9 @@ Defines the structure of messages passed between topics.
 
 ## Example of Usage
 
-[Link to a video that presents the app]
+[Link to a video that presents the app](https://drive.google.com/file/d/1-kePGyV9GI6cl4QLsmfTQQfUwRLG-HUk/view?usp=sharing)
 
-[Link to a PowerPoint that explains the app]
+[Link to a PowerPoint that explains the app](https://github.com/omersela10/computationalGraphWebApp/tree/b327148a459823cbfd5cf7a58dd17d7da86d2c67/computationalGraphWebApp/resources)
 
 ## Authors
 
