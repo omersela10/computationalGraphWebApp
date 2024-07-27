@@ -1,6 +1,3 @@
-graph.PlusAgent
-A,B
-C
-graph.IncAgent
-C
-D
+UnOpAgent.Inc
+A
+inc(A)
