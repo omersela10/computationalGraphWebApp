@@ -77,8 +77,8 @@ public class TopicDisplayer implements Servlet {
                 .append("    <table style=\"border-collapse: collapse; width: 100%;\">\n")
                 .append("        <thead>\n")
                 .append("            <tr>\n")
-                .append("                <th style=\"border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2; text-align: left;\">Topic</th>\n")
-                .append("                <th style=\"border: 1px solid #ddd; padding: 8px; background-color: #f2f2f2; text-align: left;\">Message</th>\n")
+                .append("                <th style=\"border: 1px solid #ddd; padding: 8px; background-color: #000000; text-align: left;\">Topic</th>\n")
+                .append("                <th style=\"border: 1px solid #ddd; padding: 8px; background-color: #000000; text-align: left;\">Message</th>\n")
                 .append("            </tr>\n")
                 .append("        </thead>\n")
                 .append("        <tbody>\n");
