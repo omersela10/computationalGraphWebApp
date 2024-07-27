@@ -76,6 +76,7 @@ public class MainTrain {
         myServer.addServlet("GET", "/app", new HtmlLoader("./html_files"));
         myServer.addServlet("POST", "/uploadExpression", new ExpressionHandler());
         myServer.addServlet("POST", "/upload", new ConfLoader());
+        myServer.addServlet("GET", "/result", new ResultHandler());
         myServer.start();
 
         // Wait for the server to start

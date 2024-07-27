@@ -13,29 +13,50 @@
             margin: 0;
         }
         form {
-            margin: 20px;
+            margin: 5px;
         }
         label {
             display: block;
-            margin-bottom: 10px;
+            margin-bottom: 5px;
         }
         input[type="file"], input[type="text"], input[type="submit"] {
-            margin-bottom: 10px;
+            margin-bottom: 5px;
+        }
+        #container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 600px;
+        }
+        #tableDiv, #resultDiv {
+            width: 400px;
+
+            margin: 5px;
+            padding: 5px;
+            box-sizing: border-box;
         }
         #tableDiv {
-            width: 600px;
-            height: 800px;
+            height: 600px;
+        }
+        #resultDiv {
+            height: 100px;
             border: 1px solid black;
-            margin: 20px;
-            padding: 10px;
-            box-sizing: border-box;
         }
     </style>
 </head>
 <body>
 
-<div id="tableDiv">
+<div id="container">
     <h1 id="topicTitle">Topics</h1>
+    <div id="resultDiv">
+        <label for="resultLabel">Result:</label>
+        <h4 id="resultLabel"></h4>
+    </div>
+    <div id="tableDiv">
+        <!-- Table content goes here -->
+    </div>
+
 </div>
+
 </body>
 </html>
