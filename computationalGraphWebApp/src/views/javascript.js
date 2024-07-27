@@ -134,6 +134,27 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
+// Fetch result
+function fetchResult() {
+    // Fetch data from the server
+    fetch('http://localhost:8080/result')
+        .then(response => response.text())
+        .then(data => {
+            // Log
+            console.log("The response from result is", data);
+
+            // Update the resultLabel content with the data from the server
+            const resultLabel = document.getElementById('resultLabel');
+            if (resultLabel.textContent !== data) {
+                resultLabel.textContent = data;
+            }
+        })
+        .catch(error => console.error('Error fetching result:', error));
+}
+
+// Polling interval set to 3000 milliseconds (3 seconds)
+setInterval(fetchResult, 3000);
+
 
 // Event listener to the DOM
 document.addEventListener("DOMContentLoaded", function () {
@@ -201,13 +222,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
             ctx.beginPath();
             if (node.type === "rectangle") {
-                ctx.rect(node.x - 50, node.y - 25, 100, 50); // Enlarged rectangle
+                const rectWidth = 150; // Increased rectangle width
+                const rectHeight = 75; // Increased rectangle height
+                ctx.rect(node.x - rectWidth / 2, node.y - rectHeight / 2, rectWidth, rectHeight);
                 ctx.strokeStyle = "#00F";
                 ctx.stroke();
                 ctx.fillStyle = "#CCF";
                 ctx.fill();
             } else {
-                const circleRadius = 60; // Enlarged circle radius
+                const circleRadius = 80; // Increased circle radius
                 ctx.arc(node.x, node.y, circleRadius, 0, Math.PI * 2);
                 ctx.strokeStyle = "#F00";
                 ctx.stroke();
@@ -215,10 +238,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 ctx.fill();
             }
 
-            ctx.font = "14px Arial"; // Slightly larger font
+            // Update font to be bold and larger
+            ctx.font = "18px Arial"; // Increased font size
+            ctx.font = "bold 18px Arial"; // Make font bold
             ctx.fillStyle = "#000";
             ctx.textAlign = "center";
-            ctx.fillText(label, node.x, node.y + 5);
+            ctx.fillText(label, node.x, node.y + 6); // Adjusted y-position for better alignment
         }
 
         // Draw edges with arrows
