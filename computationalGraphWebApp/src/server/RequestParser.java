@@ -6,9 +6,32 @@ import java.util.*;
 /// Advanced Programming exercise 5
 /// Student Name: Ahigad Genish
 /// ID : 31628022
+
+
+/**
+ * The {@code RequestParser} class provides utility methods to parse HTTP requests.
+ * It extracts information such as HTTP command, URI, parameters, headers, and content
+ * from the request.
+ * <p>
+ * Example usage:
+ * <pre>
+ * {@code
+ * BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+ * RequestParser.RequestInfo requestInfo = RequestParser.parseRequest(reader);
+ * }
+ * </pre>
+ */
 public class RequestParser {
 
 	// Parse given request
+
+    /**
+     * Parses an HTTP request from the provided {@code BufferedReader}.
+     *
+     * @param reader the reader to read the request from
+     * @return a {@code RequestInfo} object containing parsed request details
+     * @throws IOException if an I/O error occurs while reading the request
+     */
 	public static RequestInfo parseRequest(BufferedReader reader) throws IOException {
         
 		String requestLine = reader.readLine();
@@ -202,6 +225,10 @@ public class RequestParser {
     }
     
 	// RequestInfo given internal class
+    /**
+     * The {@code RequestInfo} class holds information about an HTTP request,
+     * including the HTTP command, URI, parameters, headers, and content.
+     */
     public static class RequestInfo {
         private final String httpCommand;
         private final String uri;
@@ -209,6 +236,15 @@ public class RequestParser {
         private final Map<String, String> parameters;
         private final byte[] content;
 
+        /**
+         * Constructs a {@code RequestInfo} object with the provided details.
+         *
+         * @param httpCommand the HTTP command (e.g., "GET", "POST")
+         * @param uri the request URI
+         * @param parameters a map of request parameters
+         * @param headers a map of request headers
+         * @param content the content of the request body
+         */
         public RequestInfo(String httpCommand, String uri, String[] uriSegments, Map<String, String> parameters, byte[] content) {
             this.httpCommand = httpCommand;
             this.uri = uri;
