@@ -3,16 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <title>Forms</title>
-    <!--Frame Style -->
+    <!-- Frame Style -->
     <style>
         body {
             display: flex;
-            flex-direction: column;
             margin: 0;
             padding: 10px;
             font-family: Arial, sans-serif;
             background-color: #333;
             color: #fff;
+        }
+        .container {
+            display: flex;
+            width: 100%;
+        }
+        .left-column {
+            display: flex;
+            flex-direction: column;
+            margin-right: 20px;
+            width: 50%;
+        }
+        .right-column {
+            width: 50%;
         }
         form {
             margin-bottom: 20px;
@@ -42,29 +54,34 @@
     </style>
 </head>
 <body>
-<!-- Allow user to upload configuration file contains math expression -->
-<form id="uploadForm" enctype="multipart/form-data">
-    <label for="configFile">Choose File:</label>
-    <input type="file" id="configFile" name="configFile">
-    <input type="submit" value="Deploy">
-</form>
+<div class="container">
+    <div class="left-column">
+        <!-- Allow user to upload configuration file contains math expression -->
+        <form id="uploadForm" enctype="multipart/form-data">
+            <label for="configFile">Choose File:</label>
+            <input type="file" id="configFile" name="configFile">
+            <input type="submit" value="Deploy">
+        </form>
 
-<!-- Allow user to insert math expression -->
-<form id="expressionForm" action="http://localhost:8080/uploadExpression" method="post">
-    <label for="expression">Enter expression:</label>
-    <input type="text" id="expression" name="expression">
-    <input type="submit" value="Submit">
-    <p>Available operators and functions: , + - * / ^ ( ) sqrt ln log10 exp inc dec</p>
-    <p>Example expression: ln(exp(A)) + log10(sqrt(B)) * dec(C^(D/(E-F)))</p>
-</form>
-
-<!-- Allow user to inject input into variable -->
-<form id="topicForm" action="http://localhost:8080/publish" method="get" target="tableFrame" onsubmit="sendTopic(event)">
-    <label for="topicName">Topic name:</label>
-    <input type="text" id="topicName" name="topicName">
-    <label for="message">Message:</label>
-    <input type="text" id="message" name="message">
-    <input type="submit" value="Send">
-</form>
+        <!-- Allow user to insert math expression -->
+        <form id="expressionForm" action="http://localhost:8080/uploadExpression" method="post">
+            <label for="expression">Enter expression:</label>
+            <input type="text" id="expression" name="expression">
+            <input type="submit" value="Submit">
+            <p>Available operators and functions: , + - * / ^ ( ) sqrt ln log10 exp inc dec</p>
+            <p>Example expression: ln(exp(A)) + log10(sqrt(B)) * dec(C^(D/(E-F)))</p>
+        </form>
+    </div>
+    <div class="right-column">
+        <!-- Allow user to inject input into variable -->
+        <form id="topicForm" action="http://localhost:8080/publish" method="get" target="tableFrame" onsubmit="sendTopic(event)">
+            <label for="topicName">Topic name:</label>
+            <input type="text" id="topicName" name="topicName">
+            <label for="message">Message:</label>
+            <input type="text" id="message" name="message">
+            <input type="submit" value="Send">
+        </form>
+    </div>
+</div>
 </body>
 </html>
