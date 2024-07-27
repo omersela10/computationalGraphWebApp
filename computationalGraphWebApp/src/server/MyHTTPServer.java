@@ -12,6 +12,21 @@ import java.util.concurrent.*;
 /// Student Name: Ahigad Genish
 /// ID : 31628022
 
+/**
+ * The {@code MyHTTPServer} class is an implementation of the {@code HTTPServer} interface.
+ * It provides basic functionality for an HTTP server, including handling requests with servlets
+ * and managing server operations.
+ * <p>
+ * This server supports GET, POST, and DELETE HTTP commands.
+ * <p>
+ * Example usage:
+ * <pre>
+ * {@code
+ * MyHTTPServer server = new MyHTTPServer(8080, 10);
+ * server.start();
+ * }
+ * </pre>
+ */
 public class MyHTTPServer extends Thread implements HTTPServer{
     
 	// Data Members
@@ -25,6 +40,12 @@ public class MyHTTPServer extends Thread implements HTTPServer{
 	private ConcurrentHashMap<String, Servlet> deleteHttpCommandMap = new ConcurrentHashMap<String, Servlet>();
 	
 	// Constructor
+    /**
+     * Constructs a new {@code MyHTTPServer}.
+     *
+     * @param port the port number on which the server will listen for connections
+     * @param nThreads the number of threads in the thread pool
+     */
     public MyHTTPServer(int port,int nThreads){
     	this.port = port;
     	this.numberOfThreads = nThreads;
@@ -33,6 +54,14 @@ public class MyHTTPServer extends Thread implements HTTPServer{
     // Methods
     
     // Add servlet into the map
+    /**
+     * Adds a servlet to the server to handle a specific HTTP command and URI.
+     *
+     * @param httpCommand the HTTP command (e.g., "GET", "POST", "DELETE")
+     * @param uri the URI that the servlet will handle
+     * @param s the servlet to handle the requests
+     * @throws IllegalArgumentException if the HTTP command is not supported
+     */
     public void addServlet(String httpCommand, String uri, Servlet s){
         switch(httpCommand.toUpperCase()) {
             case "GET":
@@ -50,6 +79,13 @@ public class MyHTTPServer extends Thread implements HTTPServer{
     }
 
     // Remove servlet from the map
+    /**
+     * Removes the servlet associated with a specific HTTP command and URI.
+     *
+     * @param httpCommand the HTTP command (e.g., "GET", "POST", "DELETE")
+     * @param uri the URI that the servlet was handling
+     * @throws IllegalArgumentException if the HTTP command is not supported
+     */
     public void removeServlet(String httpCommand, String uri){
         switch(httpCommand.toUpperCase()) {
             case "GET":
@@ -67,6 +103,9 @@ public class MyHTTPServer extends Thread implements HTTPServer{
     }
 
     // Run server method (apply by start)
+    /**
+     * Runs the server, accepting connections and handling requests using servlets.
+     */
     public void run(){
     	 try {
              serverSocket = new ServerSocket(port);
@@ -95,6 +134,9 @@ public class MyHTTPServer extends Thread implements HTTPServer{
     }
 
     // Close server method
+    /**
+     * Closes the server, including the server socket and all servlets.
+     */
     public void close() {
     	// Shut down
     	threadPool.shutdown();
@@ -119,6 +161,11 @@ public class MyHTTPServer extends Thread implements HTTPServer{
     }
     
     // Close servlets
+    /**
+     * Closes all servlets managed by the server.
+     *
+     * @throws IOException if an I/O error occurs
+     */
     private void closeServlets() throws IOException {
 		
     	// Close get http servlets
@@ -137,6 +184,11 @@ public class MyHTTPServer extends Thread implements HTTPServer{
 	}
 
     // Handle client request
+    /**
+     * Handles incoming client requests.
+     *
+     * @param clientSocket the socket connected to the client
+     */
 	private void handleRequest(Socket clientSocket) {
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
              OutputStream out = clientSocket.getOutputStream()) {
@@ -170,6 +222,13 @@ public class MyHTTPServer extends Thread implements HTTPServer{
     }
 
 	// Return the match servlet to the given uri
+    /**
+     * Matches the request URI to the corresponding servlet in the provided map.
+     *
+     * @param commandMap the map of URIs to servlets
+     * @param uri the request URI
+     * @return the servlet that matches the URI, or null if no match is found
+     */
     private Servlet matchUriToServlet(ConcurrentHashMap<String, Servlet> commandMap, String uri) {
         
     	Servlet matchedServlet = null;
