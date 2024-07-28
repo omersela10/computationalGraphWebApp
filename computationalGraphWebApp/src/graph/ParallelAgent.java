@@ -60,10 +60,6 @@ public class ParallelAgent implements Agent {
         addToQueue(CLOSE_SENTINEL);
     }
 
-    @Override
-    public String getResult() {
-        return this.agent.getResult();
-    }
 
     // Start active object run in background
     public void startActiveObject() {

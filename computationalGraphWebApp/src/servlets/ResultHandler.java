@@ -22,10 +22,8 @@ public class ResultHandler implements Servlet{
         for (Topic topic : allTopics) {
 
             if (topic.getSubscribers().size() == 0) { // Final topic
-                if (topic.getPublishers().size() == 1) { // Get its agent
-                    Agent agent = topic.getPublishers().get(0);
-
-                    result = topic.name + " : " + agent.getResult();
+                if (topic.getPublishers().size() == 1) {
+                    result = topic.name + " : " + topic.getResult();
                     break;
                 }
             }

@@ -62,12 +62,10 @@ public class TopicDisplayer implements Servlet {
             if (topic.getPublishers().size() == 0 && this.topicToCurrentMessage.containsKey(topic.name) == false) {
                 this.topicToCurrentMessage.put(topic.name, "");
             }
-            for (Agent agent : topic.getPublishers()) {
-
-                // Get new result from agent
-                String currentValue = agent.getResult();
-                this.topicToCurrentMessage.put(topic.name, currentValue);
+            else {
+                this.topicToCurrentMessage.put(topic.name, topic.getResult());
             }
+
         }
 
         // Generate the new body content

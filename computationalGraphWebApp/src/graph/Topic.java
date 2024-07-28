@@ -14,6 +14,8 @@ public class Topic {
     private List<Agent> subscribers;
     private List<Agent> publishers;
 
+    private String result = "";
+
     // Constructor
     Topic(String name){
         this.name = name;
@@ -30,6 +32,10 @@ public class Topic {
     }
 
     public void publish(Message message){
+
+        // Update result
+        setResult(message.asText);
+
         for(Agent agent : this.subscribers){
             agent.callback(this.name, message);
         }
@@ -49,5 +55,13 @@ public class Topic {
     }
     public List<Agent> getSubscribers(){
         return this.subscribers;
+    }
+
+    public String getResult() {
+        return this.result;
+    }
+
+    public void setResult(String anyResult){
+        this.result = anyResult;
     }
 }
