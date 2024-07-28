@@ -1,9 +1,3 @@
-BinOpAgent.Plus
-A,B
-C
-BinOpAgent.Minus
-A,B
-D
-BinOpAgent.Minus
-C,D
-D
+UnOpAgent.SquareRoot
+A
+sqrt(A)
